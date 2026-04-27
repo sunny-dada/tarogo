@@ -1,0 +1,27 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+.cache/
+
+# Large files (배포에 불필요)
+*.zip
+rider-waite-tarot/
+image.png
+메이저_아르카나_데이터.json
+
+# Documentation (optional - 배포에 불필요)
+*.md
+!README.md

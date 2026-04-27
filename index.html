@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>타로고 (TaroGo) - 무료 타로 카드 계산기</title>
+  <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- 헤더 -->
+    <header class="header">
+      <h1>🔮 타로고</h1>
+      <p class="subtitle">나의 운명 여행 - 생년월일로 알아보는 타로 카드</p>
+    </header>
+
+    <!-- 카드 설명 섹션 -->
+    <section class="explanation-section compact">
+      <div class="card-types">
+        <div class="card-type-item">
+          <span class="type-icon">🌟</span>
+          <div class="type-content">
+            <strong>유니버셜 카드</strong>
+            <p>평생의 여정 · 생년월일 모든 숫자 합계</p>
+            <code>예: 1981-02-07 → 28 → 2+8 = <em>10번</em></code>
+          </div>
+        </div>
+
+        <div class="card-type-item">
+          <span class="type-icon">✨</span>
+          <div class="type-content">
+            <strong>소울 카드</strong>
+            <p>영혼의 본질 · 유니버셜 카드를 재축약</p>
+            <code>예: 10번 → 1+0 = <em>1번</em> (10번 이상만 해당)</code>
+          </div>
+        </div>
+
+        <div class="card-type-item">
+          <span class="type-icon">🎂</span>
+          <div class="type-content">
+            <strong>연도 카드</strong>
+            <p>그 해의 테마 · 특정 연도 + 월일</p>
+            <code>예: 2026-02-07 → 19 = <em>19번</em></code>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 입력 섹션 -->
+    <section class="input-section">
+      <div class="input-group">
+        <label for="birthdate">생년월일</label>
+        <input
+          type="date"
+          id="birthdate"
+          class="date-input"
+          max="9999-12-31"
+        >
+      </div>
+
+      <div class="input-group">
+        <label for="year">확인할 연도</label>
+        <input
+          type="number"
+          id="year"
+          class="year-input"
+          min="1900"
+          max="2100"
+          value="2026"
+          placeholder="예: 2026"
+        >
+      </div>
+
+      <button id="calculateBtn" class="calculate-btn">
+        카드 보기
+      </button>
+
+      <div id="error" class="error-message" style="display: none;"></div>
+    </section>
+
+    <!-- 저장된 사람들 탭 -->
+    <div id="peopleTabs" class="people-tabs-container" style="display: none;">
+      <div class="people-tabs-header">
+        <h3>👥 저장된 사람들</h3>
+        <button id="clearAllPeople" class="btn-clear-all">전체 삭제</button>
+      </div>
+      <div id="peopleTabsList" class="people-tabs"></div>
+    </div>
+
+    <!-- 사람들 간 궁합 -->
+    <section id="peopleCompatibility" class="people-compatibility-section" style="display: none;">
+      <div class="compatibility-header">
+        <h2>💕 사람들 간 궁합</h2>
+        <p class="section-description">저장된 사람들끼리의 궁합을 확인해보세요</p>
+      </div>
+
+      <div id="compatibilityList" class="compatibility-list">
+        <!-- 궁합 카드들이 여기 표시됩니다 -->
+      </div>
+    </section>
+
+    <!-- 결과 섹션 -->
+    <section id="results" class="results-section" style="display: none;">
+      <!-- 기본 정보 -->
+      <div class="basic-info">
+        <div class="basic-info-header">
+          <h2>📊 계산 결과</h2>
+          <button id="savePerson" class="btn-save-person">
+            <span class="save-icon">💾</span> 이 사람 저장
+          </button>
+        </div>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="info-label">생년월일</span>
+            <span id="displayBirthdate" class="info-value"></span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">나이</span>
+            <span id="displayAge" class="info-value"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 유니버셜 카드 -->
+      <div class="card-section simple-style">
+        <h2>🌟 유니버셜 카드 <span class="card-subtitle">평생의 여정</span></h2>
+
+        <div class="simple-card-display">
+          <div class="card-image-container">
+            <img id="universalCardImage" class="card-image" alt="유니버셜 카드">
+            <div class="card-number" id="universalCardNumber"></div>
+          </div>
+
+          <div class="simple-card-content">
+            <h3 id="universalCardName" class="card-name"></h3>
+
+            <!-- 핵심 키워드 -->
+            <div class="core-keywords">
+              <span class="keywords-label">핵심 키워드</span>
+              <div id="universalCoreKeywords" class="keyword-tags"></div>
+            </div>
+
+            <!-- 한마디로 -->
+            <div class="one-liner-box">
+              <div class="one-liner-label">👤 한마디로</div>
+              <p id="universalOneLiner" class="one-liner-text"></p>
+            </div>
+
+            <!-- 이런 사람 -->
+            <div class="personality-section">
+              <h4>✨ 이런 사람이에요</h4>
+              <ul id="universalPersonality" class="personality-list"></ul>
+            </div>
+
+            <!-- 실생활 -->
+            <div class="real-life-section">
+              <div class="real-life-item strength">
+                <strong>💪 강점:</strong>
+                <p id="universalRealStrength"></p>
+              </div>
+              <div class="real-life-item challenge">
+                <strong>⚠️ 주의:</strong>
+                <p id="universalRealChallenge"></p>
+              </div>
+              <div class="real-life-item advice">
+                <strong>💡 조언:</strong>
+                <p id="universalRealAdvice"></p>
+              </div>
+            </div>
+
+            <!-- 일/관계 스타일 -->
+            <div class="style-tags">
+              <div class="style-tag">
+                <span class="tag-icon">💼</span>
+                <span id="universalWorkStyle"></span>
+              </div>
+              <div class="style-tag">
+                <span class="tag-icon">💕</span>
+                <span id="universalRelationStyle"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 소울 카드 (조건부 표시) -->
+      <div id="soulCardSection" class="card-section soul-card" style="display: none;">
+        <h2>✨ 소울 카드</h2>
+        <p class="card-description">유니버셜 카드의 더 깊은 본질</p>
+
+        <div class="soul-card-info">
+          <img id="soulCardImage" class="card-image-small" alt="소울 카드">
+          <div class="soul-card-details">
+            <h3 id="soulCardName"></h3>
+            <p id="soulCardMeaning"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 카드 페어 심층 해석 (조건부 표시) -->
+      <div id="cardPairSection" class="card-section card-pair" style="display: none;">
+        <h2 id="pairTitle">🎯 카드 페어 해석</h2>
+        <p class="card-description">유니버셜 카드와 소울 카드의 특별한 조합</p>
+
+        <div class="pair-content">
+          <div class="pair-essence">
+            <h4>🌟 본질</h4>
+            <p id="pairEssence"></p>
+          </div>
+
+          <div class="pair-gift">
+            <h4>🎁 독특한 재능</h4>
+            <p id="pairGift"></p>
+          </div>
+
+          <div class="pair-purpose">
+            <h4>🎯 인생의 목적</h4>
+            <p id="pairPurpose"></p>
+          </div>
+
+          <div class="pair-challenge">
+            <h4>⚡ 통합 과제</h4>
+            <p id="pairChallenge"></p>
+          </div>
+
+          <div class="pair-advice">
+            <h4>💡 실천 조언</h4>
+            <ul id="pairAdviceList"></ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 심층 해석 (조건부 표시) -->
+      <div id="deepInterpretationSection" class="card-section deep-interpretation" style="display: none;">
+        <h2>🔮 심층 해석</h2>
+        <p class="card-description">당신의 유니버셜 카드를 다양한 측면에서 탐구합니다</p>
+
+        <div class="deep-content">
+          <!-- 관계 -->
+          <div class="deep-area">
+            <h3>💞 관계와 연애</h3>
+            <p id="deepRelationshipGeneral"></p>
+            <div class="deep-details">
+              <div class="deep-strengths">
+                <h4>강점</h4>
+                <ul id="deepRelationshipStrengths"></ul>
+              </div>
+              <div class="deep-challenges">
+                <h4>주의사항</h4>
+                <ul id="deepRelationshipChallenges"></ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- 커리어 -->
+          <div class="deep-area">
+            <h3>💼 직업과 커리어</h3>
+            <p id="deepCareerGeneral"></p>
+            <div class="deep-career-fields">
+              <h4>적합한 분야</h4>
+              <div id="deepCareerFields" class="career-tags"></div>
+            </div>
+            <div class="deep-career-advice">
+              <p id="deepCareerAdvice"></p>
+            </div>
+          </div>
+
+          <!-- 인생 여정 -->
+          <div class="deep-area">
+            <h3>🛤️ 인생 여정</h3>
+            <div class="life-stages">
+              <div class="life-stage">
+                <h4>🌱 초기 (청년기)</h4>
+                <p id="deepLifeEarly"></p>
+              </div>
+              <div class="life-stage">
+                <h4>🌳 중기 (장년기)</h4>
+                <p id="deepLifeMiddle"></p>
+              </div>
+              <div class="life-stage">
+                <h4>🌟 후기 (노년기)</h4>
+                <p id="deepLifeMature"></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 그림자 -->
+          <div class="deep-area shadow-work">
+            <h3>🌑 그림자 작업</h3>
+            <div class="shadow-content">
+              <div class="shadow-box">
+                <h4>통합되지 않은 에너지</h4>
+                <p id="deepShadowUnintegrated"></p>
+              </div>
+              <div class="shadow-box">
+                <h4>내면의 두려움</h4>
+                <p id="deepShadowFear"></p>
+              </div>
+              <div class="shadow-box integration">
+                <h4>✨ 통합의 길</h4>
+                <p id="deepShadowPath"></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 영적 성장 -->
+          <div class="deep-area spiritual">
+            <h3>🕊️ 영적 성장</h3>
+            <p id="deepSpiritual"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 연도 카드 -->
+      <div class="card-section birthday-section">
+        <h2>🎂 <span id="birthdayYear"></span>년 연도 카드</h2>
+        <p class="card-description">올해 당신에게 주어진 특별한 메시지</p>
+
+        <div class="card-display">
+          <div class="card-image-container">
+            <img id="birthdayCardImage" class="card-image" alt="연도 카드">
+            <div class="card-number" id="birthdayCardNumber"></div>
+          </div>
+
+          <div class="card-details">
+            <h3 id="birthdayCardName" class="card-name"></h3>
+            <div class="keywords" id="birthdayCardKeywords"></div>
+
+            <div class="card-content">
+              <div class="content-section">
+                <h4>🌈 올해의 테마</h4>
+                <p id="birthdayMeaning"></p>
+              </div>
+
+              <div class="advice-box">
+                <h4>💡 올해의 조언</h4>
+                <p id="birthdayAdvice"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 카드 조화 -->
+      <div class="harmony-section">
+        <h2 id="harmonyTitle">🔗 카드 간 조화</h2>
+        <div class="harmony-content">
+          <p id="harmonyMessage" class="harmony-message"></p>
+          <div class="harmony-advice">
+            <h4>💡 통합 조언</h4>
+            <p id="harmonyAdvice"></p>
+          </div>
+          <div class="harmony-focus">
+            <h4>🎯 올해 집중할 포인트</h4>
+            <ul id="harmonyFocus"></ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 카드 궁합 -->
+      <div class="card-section compatibility-section">
+        <h2>💫 카드 궁합</h2>
+        <p class="card-description">당신의 유니버셜 카드와 궁합이 맞는 카드들을 확인해보세요</p>
+
+        <div class="compatibility-content">
+          <!-- 최고 궁합 -->
+          <div class="compatibility-group best">
+            <h3>✨ 최고의 궁합</h3>
+            <p class="compat-desc">함께하면 시너지가 극대화되는 카드들</p>
+            <div id="compatBest" class="compat-cards"></div>
+          </div>
+
+          <!-- 좋은 궁합 -->
+          <div class="compatibility-group good">
+            <h3>🌟 좋은 궁합</h3>
+            <p class="compat-desc">서로 조화롭게 어울리는 카드들</p>
+            <div id="compatGood" class="compat-cards"></div>
+          </div>
+
+          <!-- 도전적 궁합 -->
+          <div class="compatibility-group challenging">
+            <h3>⚡ 성장의 기회</h3>
+            <p class="compat-desc">다르지만 배울 점이 많은 카드들</p>
+            <div id="compatChallenging" class="compat-cards"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+      <p>타로는 자기 성찰의 도구입니다. 해석은 참고용이며, 모든 선택은 여러분의 몫입니다.</p>
+      <p class="credit">타로고 (TaroGo) | Made with ❤️ | Rider-Waite Tarot (Public Domain)</p>
+    </footer>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="src/tarot-calculator.js"></script>
+  <script src="src/tarot-data.js"></script>
+  <script src="src/tarot-data-simple.js"></script>
+  <script src="src/tarot-data-extended.js"></script>
+  <script src="src/card-combinations.js"></script>
+  <script src="src/people-manager.js"></script>
+  <script src="src/app.js"></script>
+</body>
+</html>
