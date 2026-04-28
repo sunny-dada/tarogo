@@ -25,3 +25,6 @@ image.png
 # Documentation (optional - 배포에 불필요)
 *.md
 !README.md
+
+# Local Netlify folder
+.netlify
