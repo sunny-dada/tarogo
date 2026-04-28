@@ -646,6 +646,23 @@ body {
 }
 
 /* 푸터 */
+.coupang-ad {
+  text-align: center;
+  padding: 20px 0;
+  margin-top: 20px;
+}
+
+.coupang-ad img {
+  max-width: 100%;
+  height: auto;
+}
+
+.coupang-disclosure {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 8px;
+}
+
 .footer {
   text-align: center;
   padding: 30px 20px;
