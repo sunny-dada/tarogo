@@ -10,6 +10,9 @@ const peopleTabsList = document.getElementById('peopleTabsList');
 const clearAllPeopleBtn = document.getElementById('clearAllPeople');
 const peopleCompatibilitySection = document.getElementById('peopleCompatibility');
 const compatibilityList = document.getElementById('compatibilityList');
+const compatPerson1Select = document.getElementById('compatPerson1');
+const compatPerson2Select = document.getElementById('compatPerson2');
+const checkCompatBtn = document.getElementById('checkCompatBtn');
 
 // 현재 계산 결과 저장
 let currentCalculation = null;
@@ -19,6 +22,19 @@ let currentSelectedPersonId = null;
 calculateBtn.addEventListener('click', handleCalculate);
 savePersonBtn.addEventListener('click', handleSavePerson);
 clearAllPeopleBtn.addEventListener('click', handleClearAllPeople);
+checkCompatBtn.addEventListener('click', handleCheckCompatibility);
+
+// 생년월일 숫자 입력 시 자동 하이픈 포맷팅
+birthdateInput.addEventListener('input', (e) => {
+  let value = e.target.value.replace(/[^0-9]/g, '');
+  if (value.length > 8) value = value.slice(0, 8);
+  if (value.length >= 5 && value.length <= 6) {
+    value = value.slice(0, 4) + '-' + value.slice(4);
+  } else if (value.length > 6) {
+    value = value.slice(0, 4) + '-' + value.slice(4, 6) + '-' + value.slice(6);
+  }
+  e.target.value = value;
+});
 
 // Enter 키로도 계산 가능
 birthdateInput.addEventListener('keypress', (e) => {
@@ -70,6 +86,14 @@ function handleCalculate() {
       birthdayCardNumber,
       soulCardNumber
     });
+
+    // GA4 이벤트 트래킹
+    if (typeof gtag === 'function') {
+      gtag('event', 'tarot_calculate', {
+        event_category: 'engagement',
+        event_label: `universal_${universalCardNumber}_soul_${soulCardNumber}`
+      });
+    }
 
     // 결과 섹션으로 스크롤
     resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -129,6 +153,9 @@ function displayResults(data) {
 
   // 카드 조화 메시지
   displayHarmony(universalCardNumber, birthdayCardNumber);
+
+  // 저장 버튼 상태 업데이트
+  updateSaveButton(birthdate);
 
   // 결과 섹션 표시
   resultsSection.style.display = 'block';
@@ -194,19 +221,34 @@ function displayBirthdayCard(cardNumber, year) {
   document.getElementById('birthdayCardName').textContent =
     `${cardData.name_ko} (${cardData.name_en})`;
 
-  // 키워드 (문장 형태)
-  if (simpleData) {
-    const keywordsHtml = simpleData.core_keywords
-      .map(keyword => `<span class="keyword">${keyword}</span>`)
-      .join('');
-    document.getElementById('birthdayCardKeywords').innerHTML = keywordsHtml;
-  }
-
-  // 의미
+  // 올해의 테마
   document.getElementById('birthdayMeaning').textContent = cardData.birthday_meaning;
 
-  // 조언
-  document.getElementById('birthdayAdvice').textContent = cardData.advice;
+  if (simpleData) {
+    // 핵심 키워드
+    const keywordsHtml = simpleData.core_keywords
+      .map(keyword => `<span class="keyword-tag">${keyword}</span>`)
+      .join('');
+    document.getElementById('birthdayCardKeywords').innerHTML = keywordsHtml;
+
+    // 한마디로
+    document.getElementById('birthdayOneLiner').textContent = simpleData.one_liner;
+
+    // 올해 이런 에너지가 흘러요
+    const personalityHtml = simpleData.personality
+      .map(trait => `<li>${trait}</li>`)
+      .join('');
+    document.getElementById('birthdayPersonality').innerHTML = personalityHtml;
+
+    // 실생활
+    document.getElementById('birthdayRealStrength').textContent = simpleData.real_life.strength;
+    document.getElementById('birthdayRealChallenge').textContent = simpleData.real_life.challenge;
+    document.getElementById('birthdayAdvice').textContent = simpleData.real_life.advice;
+
+    // 일/관계 스타일
+    document.getElementById('birthdayWorkStyle').textContent = simpleData.work_style;
+    document.getElementById('birthdayRelationStyle').textContent = simpleData.relationship_style;
+  }
 }
 
 // 카드 조화 메시지 (심층 해석)
@@ -250,10 +292,6 @@ window.addEventListener('DOMContentLoaded', () => {
   // 현재 연도 설정
   const currentYear = new Date().getFullYear();
   yearInput.value = currentYear;
-
-  // 예시: 오늘 날짜를 max로 설정
-  const today = new Date().toISOString().split('T')[0];
-  birthdateInput.max = today;
 
   // 저장된 사람들 불러오기
   refreshPeopleTabs();
@@ -389,6 +427,30 @@ function displayCompatibility(universalCard) {
 
 // ===== 사람 관리 기능 =====
 
+// 저장 버튼 상태 업데이트
+function updateSaveButton(birthdate) {
+  const people = loadPeople();
+  const savedPerson = people.find(p => p.birthdate === birthdate);
+
+  if (savedPerson) {
+    savePersonBtn.style.display = 'none';
+    // 기존 라벨이 있으면 업데이트, 없으면 생성
+    let label = document.getElementById('savedPersonLabel');
+    if (!label) {
+      label = document.createElement('span');
+      label.id = 'savedPersonLabel';
+      label.className = 'saved-person-label';
+      savePersonBtn.parentNode.insertBefore(label, savePersonBtn.nextSibling);
+    }
+    label.textContent = `${savedPerson.name}(으)로 저장됨`;
+    label.style.display = '';
+  } else {
+    savePersonBtn.style.display = '';
+    const label = document.getElementById('savedPersonLabel');
+    if (label) label.style.display = 'none';
+  }
+}
+
 // 사람 저장 핸들러
 function handleSavePerson() {
   if (!currentCalculation) {
@@ -413,9 +475,17 @@ function handleSavePerson() {
   const savedPerson = addPerson(personData);
   currentSelectedPersonId = savedPerson.id;
 
+  // GA4 이벤트 트래킹
+  if (typeof gtag === 'function') {
+    gtag('event', 'save_person', { event_category: 'engagement' });
+  }
+
   // UI 업데이트
   refreshPeopleTabs();
   refreshPeopleCompatibility();
+
+  // 저장 버튼 → 저장됨 라벨로 전환
+  updateSaveButton(currentCalculation.birthdate);
 
   alert(`${savedPerson.name}님이 저장되었습니다!`);
 }
@@ -529,7 +599,7 @@ function loadPersonData(personId) {
   resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-// 사람들 간 궁합 새로고침
+// 사람들 간 궁합 새로고침 (드롭다운 갱신)
 function refreshPeopleCompatibility() {
   const people = loadPeople();
 
@@ -540,14 +610,51 @@ function refreshPeopleCompatibility() {
 
   peopleCompatibilitySection.style.display = 'block';
 
-  const compatibilities = analyzeAllCompatibilities();
+  // 현재 선택값 보존
+  const prev1 = compatPerson1Select.value;
+  const prev2 = compatPerson2Select.value;
 
-  if (compatibilities.length === 0) {
-    compatibilityList.innerHTML = '<p class="compat-empty">궁합을 확인할 수 있는 사람이 없습니다.</p>';
+  // 드롭다운 옵션 갱신
+  const optionsHtml = people.map(p =>
+    `<option value="${p.id}">${p.name} (${p.universalCard}번)</option>`
+  ).join('');
+
+  compatPerson1Select.innerHTML = '<option value="">첫 번째 사람</option>' + optionsHtml;
+  compatPerson2Select.innerHTML = '<option value="">두 번째 사람</option>' + optionsHtml;
+
+  // 이전 선택값 복원 (아직 존재하면)
+  if (people.find(p => p.id === prev1)) compatPerson1Select.value = prev1;
+  if (people.find(p => p.id === prev2)) compatPerson2Select.value = prev2;
+
+  // 결과 영역 비우기 (선택이 무효화됐을 수 있으므로)
+  compatibilityList.innerHTML = '';
+}
+
+// 궁합 보기 핸들러
+function handleCheckCompatibility() {
+  const personId1 = compatPerson1Select.value;
+  const personId2 = compatPerson2Select.value;
+
+  if (!personId1 || !personId2) {
+    alert('두 사람을 모두 선택해주세요.');
     return;
   }
 
-  const compatHtml = compatibilities.map(compat => `
+  if (personId1 === personId2) {
+    alert('서로 다른 사람을 선택해주세요.');
+    return;
+  }
+
+  const person1 = getPerson(personId1);
+  const person2 = getPerson(personId2);
+  const compat = analyzePeopleCompatibility(person1, person2);
+
+  // GA4 이벤트 트래킹
+  if (typeof gtag === 'function') {
+    gtag('event', 'check_compatibility', { event_category: 'engagement' });
+  }
+
+  const compatHtml = `
     <div class="compatibility-card">
       <div class="compatibility-people">
         <div class="compat-person">
@@ -590,7 +697,7 @@ function refreshPeopleCompatibility() {
         `).join('')}
       </div>
     </div>
-  `).join('');
+  `;
 
   compatibilityList.innerHTML = compatHtml;
 }

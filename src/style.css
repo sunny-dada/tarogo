@@ -346,6 +346,7 @@ body {
 
 .card-image {
   width: 100%;
+  height: auto;
   border-radius: 12px;
   box-shadow: var(--shadow-lg);
   border: 3px solid var(--border-color);
@@ -353,6 +354,7 @@ body {
 
 .card-image-small {
   width: 120px;
+  height: auto;
   border-radius: 8px;
   box-shadow: var(--shadow);
   border: 2px solid var(--border-color);
@@ -600,6 +602,26 @@ body {
   font-size: 1.2rem;
 }
 
+/* 가독성: \n 줄바꿈 렌더링 */
+.content-section p,
+.advice-box p,
+.harmony-message,
+.harmony-advice p,
+.pair-content p,
+.deep-area > p,
+.shadow-box p,
+.spiritual p,
+.life-stage p,
+.deep-career-advice p,
+.real-life-item p,
+.one-liner-text,
+.personality-list li,
+.soul-card-details p,
+.card-description,
+.comparison-summary p {
+  white-space: pre-line;
+}
+
 /* 푸터 */
 .footer {
   text-align: center;
@@ -615,6 +637,38 @@ body {
 .credit {
   font-size: 0.85rem;
   margin-top: 10px;
+}
+
+/* 광고 컨테이너 (AdSense/AdFit 준비) */
+.ad-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+  max-width: 728px;
+  min-height: 50px;
+  overflow: hidden;
+}
+
+.ad-container.ad-header {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+.ad-container.ad-results-top {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.ad-container.ad-footer {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .ad-container {
+    max-width: 100%;
+  }
 }
 
 /* 반응형 */
@@ -1520,18 +1574,46 @@ body {
 }
 
 @media (max-width: 768px) {
+  .compatibility-content {
+    gap: 12px;
+  }
+
   .compatibility-group {
-    padding: 15px;
+    padding: 12px;
+  }
+
+  .compatibility-group h3 {
+    font-size: 1.1rem;
+    margin-bottom: 3px;
+  }
+
+  .compat-desc {
+    font-size: 0.8rem;
+    margin-bottom: 8px;
+  }
+
+  .compat-cards {
+    gap: 6px;
   }
 
   .compat-card-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
+    padding: 8px 10px;
+    gap: 4px;
+  }
+
+  .compat-card-number {
+    font-size: 0.75rem;
+    padding: 1px 6px;
+    margin-right: 6px;
+    min-width: 24px;
+  }
+
+  .compat-card-name {
+    font-size: 0.85rem;
   }
 
   .compat-card-reason {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
 }
 
@@ -1705,6 +1787,18 @@ body {
   font-size: 1.2rem;
 }
 
+.saved-person-label {
+  color: var(--primary-color);
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 12px;
+  background: rgba(107, 76, 230, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 /* 사람들 간 궁합 섹션 */
 .people-compatibility-section {
   max-width: 900px;
@@ -1731,6 +1825,63 @@ body {
 .section-description {
   color: var(--text-secondary);
   font-size: 0.85rem;
+}
+
+.compat-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.compat-select {
+  flex: 1;
+  min-width: 120px;
+  max-width: 200px;
+  padding: 10px 14px;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  font-size: 0.95rem;
+  background: white;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.compat-select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.compat-vs {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--primary-color);
+}
+
+.btn-check-compat {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: var(--shadow);
+  white-space: nowrap;
+}
+
+.btn-check-compat:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-check-compat:active {
+  transform: translateY(0);
 }
 
 .compatibility-list {
@@ -1933,20 +2084,38 @@ body {
     font-size: 1.3rem;
   }
 
-  .compatibility-people {
+  .compat-selector {
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
+  }
+
+  .compat-select {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .compatibility-people {
+    flex-direction: row;
+    gap: 4px;
+  }
+
+  .compat-person-name {
+    font-size: 0.85rem;
+  }
+
+  .compat-person-card {
+    font-size: 0.75rem;
   }
 
   .compat-heart {
-    transform: rotate(90deg);
-    font-size: 1.2rem;
+    font-size: 1rem;
+    flex-shrink: 0;
   }
 
   .grade-badge {
-    width: 45px;
-    height: 45px;
-    font-size: 1.5rem;
+    width: 40px;
+    height: 40px;
+    font-size: 1.3rem;
   }
 
   .grade-text {

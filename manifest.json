@@ -1,0 +1,26 @@
+{
+  "name": "타로고 (TaroGo) - 생년월일 타로 카드 계산기",
+  "short_name": "타로고",
+  "description": "생년월일로 나만의 타로 카드를 알아보세요. 무료 타로 카드 계산 및 심층 해석.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5f3ff",
+  "theme_color": "#6b4ce6",
+  "orientation": "portrait",
+  "lang": "ko",
+  "categories": ["lifestyle", "entertainment"],
+  "icons": [
+    {
+      "src": "assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

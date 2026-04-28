@@ -3,8 +3,107 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>타로고 (TaroGo) - 무료 타로 카드 계산기</title>
-  <link rel="stylesheet" href="src/style.css">
+  <title>타로고 (TaroGo) - 생년월일 타로 카드 계산기 | 무료 운세</title>
+  <meta name="description" content="생년월일만 입력하면 나만의 타로 카드를 무료로 알아볼 수 있어요. 유니버셜 카드, 소울 카드, 연도 카드 계산은 물론 성격 분석, 심층 해석, 두 사람의 궁합 분석까지 한번에 확인하세요. 지금 바로 시작해 보세요!">
+  <meta name="keywords" content="타로, 타로카드, 생년월일 타로, 무료 타로, 운세, 궁합, 유니버셜 카드, 소울 카드, TaroGo, 타로고">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <meta name="author" content="sunny">
+  <meta name="theme-color" content="#6b4ce6">
+  <meta name="format-detection" content="telephone=no">
+  <!-- 네이버 서치어드바이저: https://searchadvisor.naver.com 에서 인증 코드를 발급받아 교체하세요 -->
+  <meta name="naver-site-verification" content="YOUR_NAVER_VERIFICATION_CODE">
+  <link rel="canonical" href="https://tarogo.app/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="타로고 (TaroGo) - 생년월일 타로 카드 계산기">
+  <meta property="og:description" content="생년월일로 나만의 타로 카드를 알아보세요. 유니버셜 카드, 소울 카드, 연도 카드 계산과 심층 해석, 궁합 분석까지 무료로 제공합니다.">
+  <meta property="og:image" content="https://tarogo.app/assets/images/og-image.png">
+  <meta property="og:url" content="https://tarogo.app/">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:site_name" content="타로고 TaroGo">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="타로고 (TaroGo) - 생년월일 타로 카드 계산기">
+  <meta name="twitter:description" content="생년월일로 나만의 타로 카드를 알아보세요. 무료 타로 카드 계산 및 심층 해석.">
+  <meta name="twitter:image" content="https://tarogo.app/assets/images/og-image.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- JSON-LD 구조화 데이터 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "타로고 (TaroGo)",
+    "description": "생년월일로 나만의 타로 카드를 알아보세요. 유니버셜 카드, 소울 카드, 연도 카드 계산과 심층 해석, 궁합 분석까지 무료로 제공합니다.",
+    "url": "https://tarogo.app/",
+    "applicationCategory": "LifestyleApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "KRW"
+    },
+    "inLanguage": "ko",
+    "author": {
+      "@type": "Person",
+      "name": "sunny"
+    }
+  }
+  </script>
+
+  <!-- FAQ 구조화 데이터 (검색 리치 스니펫) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "타로고는 무엇인가요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "타로고(TaroGo)는 생년월일을 기반으로 나만의 타로 카드를 계산해주는 무료 웹 서비스입니다. 유니버셜 카드, 소울 카드, 연도 카드를 알려주고, 성격 분석과 심층 해석, 두 사람의 궁합 분석까지 제공합니다."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "생년월일로 타로 카드를 어떻게 계산하나요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "생년월일의 각 숫자를 더해서 22 이하가 될 때까지 반복하면 유니버셜 카드 번호가 나옵니다. 예를 들어 1990년 5월 15일이면 1+9+9+0+5+1+5=30, 3+0=3으로 3번 여황제 카드가 됩니다. 소울 카드는 생일(월+일)로, 연도 카드는 생일과 특정 연도를 합산하여 계산합니다."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "유니버셜 카드와 소울 카드의 차이는 무엇인가요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "유니버셜 카드는 생년월일 전체로 계산하며 인생 전반의 흐름과 성격을 나타냅니다. 소울 카드는 생일(월+일)만으로 계산하며 내면의 본질과 감정 패턴을 보여줍니다. 두 카드를 함께 보면 더 깊은 자기 이해가 가능합니다."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Google Analytics 4: https://analytics.google.com 에서 측정 ID를 발급받아 G-16EYS1CV48를 교체하세요 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-16EYS1CV48"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-16EYS1CV48');
+  </script>
+
+  <link rel="stylesheet" href="src/style.css?v=2">
 </head>
 <body>
   <div class="container">
@@ -14,6 +113,7 @@
       <p class="subtitle">나의 운명 여행 - 생년월일로 알아보는 타로 카드</p>
     </header>
 
+    <main>
     <!-- 카드 설명 섹션 -->
     <section class="explanation-section compact">
       <div class="card-types">
@@ -36,7 +136,7 @@
         </div>
 
         <div class="card-type-item">
-          <span class="type-icon">🎂</span>
+          <span class="type-icon">📅</span>
           <div class="type-content">
             <strong>연도 카드</strong>
             <p>그 해의 테마 · 특정 연도 + 월일</p>
@@ -51,10 +151,12 @@
       <div class="input-group">
         <label for="birthdate">생년월일</label>
         <input
-          type="date"
+          type="text"
           id="birthdate"
           class="date-input"
-          max="9999-12-31"
+          inputmode="numeric"
+          placeholder="YYYY-MM-DD"
+          maxlength="10"
         >
       </div>
 
@@ -91,11 +193,22 @@
     <section id="peopleCompatibility" class="people-compatibility-section" style="display: none;">
       <div class="compatibility-header">
         <h2>💕 사람들 간 궁합</h2>
-        <p class="section-description">저장된 사람들끼리의 궁합을 확인해보세요</p>
+        <p class="section-description">궁합을 확인할 두 사람을 선택하세요</p>
+      </div>
+
+      <div class="compat-selector">
+        <select id="compatPerson1" class="compat-select">
+          <option value="">첫 번째 사람</option>
+        </select>
+        <span class="compat-vs">VS</span>
+        <select id="compatPerson2" class="compat-select">
+          <option value="">두 번째 사람</option>
+        </select>
+        <button id="checkCompatBtn" class="btn-check-compat">궁합 보기</button>
       </div>
 
       <div id="compatibilityList" class="compatibility-list">
-        <!-- 궁합 카드들이 여기 표시됩니다 -->
+        <!-- 궁합 결과가 여기 표시됩니다 -->
       </div>
     </section>
 
@@ -127,7 +240,7 @@
 
         <div class="simple-card-display">
           <div class="card-image-container">
-            <img id="universalCardImage" class="card-image" alt="유니버셜 카드">
+            <img id="universalCardImage" class="card-image" alt="유니버셜 카드" width="300" height="527" loading="lazy">
             <div class="card-number" id="universalCardNumber"></div>
           </div>
 
@@ -189,7 +302,7 @@
         <p class="card-description">유니버셜 카드의 더 깊은 본질</p>
 
         <div class="soul-card-info">
-          <img id="soulCardImage" class="card-image-small" alt="소울 카드">
+          <img id="soulCardImage" class="card-image-small" alt="소울 카드" width="200" height="351" loading="lazy">
           <div class="soul-card-details">
             <h3 id="soulCardName"></h3>
             <p id="soulCardMeaning"></p>
@@ -312,29 +425,67 @@
       </div>
 
       <!-- 연도 카드 -->
-      <div class="card-section birthday-section">
-        <h2>🎂 <span id="birthdayYear"></span>년 연도 카드</h2>
-        <p class="card-description">올해 당신에게 주어진 특별한 메시지</p>
+      <div class="card-section birthday-section simple-style">
+        <h2>📅 <span id="birthdayYear"></span>년 연도 카드 <span class="card-subtitle">올해의 에너지</span></h2>
 
-        <div class="card-display">
+        <div class="simple-card-display">
           <div class="card-image-container">
-            <img id="birthdayCardImage" class="card-image" alt="연도 카드">
+            <img id="birthdayCardImage" class="card-image" alt="연도 카드" width="300" height="527" loading="lazy">
             <div class="card-number" id="birthdayCardNumber"></div>
           </div>
 
-          <div class="card-details">
+          <div class="simple-card-content">
             <h3 id="birthdayCardName" class="card-name"></h3>
-            <div class="keywords" id="birthdayCardKeywords"></div>
 
-            <div class="card-content">
-              <div class="content-section">
-                <h4>🌈 올해의 테마</h4>
-                <p id="birthdayMeaning"></p>
+            <!-- 핵심 키워드 -->
+            <div class="core-keywords">
+              <span class="keywords-label">핵심 키워드</span>
+              <div id="birthdayCardKeywords" class="keyword-tags"></div>
+            </div>
+
+            <!-- 올해의 테마 -->
+            <div class="one-liner-box">
+              <div class="one-liner-label">🌈 올해의 테마</div>
+              <p id="birthdayMeaning" class="one-liner-text"></p>
+            </div>
+
+            <!-- 한마디로 -->
+            <div class="one-liner-box">
+              <div class="one-liner-label">👤 한마디로</div>
+              <p id="birthdayOneLiner" class="one-liner-text"></p>
+            </div>
+
+            <!-- 이런 사람 -->
+            <div class="personality-section">
+              <h4>✨ 올해 이런 에너지가 흘러요</h4>
+              <ul id="birthdayPersonality" class="personality-list"></ul>
+            </div>
+
+            <!-- 실생활 -->
+            <div class="real-life-section">
+              <div class="real-life-item strength">
+                <strong>💪 강점:</strong>
+                <p id="birthdayRealStrength"></p>
               </div>
-
-              <div class="advice-box">
-                <h4>💡 올해의 조언</h4>
+              <div class="real-life-item challenge">
+                <strong>⚠️ 주의:</strong>
+                <p id="birthdayRealChallenge"></p>
+              </div>
+              <div class="real-life-item advice">
+                <strong>💡 올해의 조언:</strong>
                 <p id="birthdayAdvice"></p>
+              </div>
+            </div>
+
+            <!-- 일/관계 스타일 -->
+            <div class="style-tags">
+              <div class="style-tag">
+                <span class="tag-icon">💼</span>
+                <span id="birthdayWorkStyle"></span>
+              </div>
+              <div class="style-tag">
+                <span class="tag-icon">💕</span>
+                <span id="birthdayRelationStyle"></span>
               </div>
             </div>
           </div>
@@ -387,20 +538,22 @@
       </div>
     </section>
 
+    </main>
+
     <!-- 푸터 -->
     <footer class="footer">
       <p>타로는 자기 성찰의 도구입니다. 해석은 참고용이며, 모든 선택은 여러분의 몫입니다.</p>
-      <p class="credit">타로고 (TaroGo) | Made with ❤️ | Rider-Waite Tarot (Public Domain)</p>
+      <p class="credit">타로고 (TaroGo) | Made by sunny | Rider-Waite Tarot (Public Domain)</p>
     </footer>
   </div>
 
   <!-- JavaScript -->
-  <script src="src/tarot-calculator.js"></script>
-  <script src="src/tarot-data.js"></script>
-  <script src="src/tarot-data-simple.js"></script>
-  <script src="src/tarot-data-extended.js"></script>
-  <script src="src/card-combinations.js"></script>
-  <script src="src/people-manager.js"></script>
-  <script src="src/app.js"></script>
+  <script src="src/tarot-calculator.js?v=2" defer></script>
+  <script src="src/tarot-data.js?v=2" defer></script>
+  <script src="src/tarot-data-simple.js?v=2" defer></script>
+  <script src="src/tarot-data-extended.js?v=2" defer></script>
+  <script src="src/card-combinations.js?v=2" defer></script>
+  <script src="src/people-manager.js?v=2" defer></script>
+  <script src="src/app.js?v=2" defer></script>
 </body>
 </html>
