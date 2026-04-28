@@ -73,9 +73,6 @@ body {
 }
 
 .card-type-item {
-  display: flex;
-  gap: 12px;
-  align-items: start;
   padding: 15px;
   background: white;
   border-radius: 8px;
@@ -91,25 +88,23 @@ body {
 }
 
 .type-icon {
-  font-size: 1.8rem;
-  line-height: 1;
+  font-size: 1rem;
+  margin-right: 4px;
 }
 
 .type-content {
-  flex: 1;
+  display: inline;
 }
 
 .type-content strong {
-  display: block;
   color: var(--primary-color);
   font-size: 1rem;
-  margin-bottom: 4px;
 }
 
 .type-content p {
   font-size: 0.85rem;
   color: var(--text-secondary);
-  margin: 0 0 8px 0;
+  margin: 4px 0 8px 0;
   line-height: 1.4;
 }
 
@@ -120,7 +115,7 @@ body {
   border-radius: 4px;
   font-size: 0.8rem;
   color: var(--text-secondary);
-  font-family: 'Courier New', monospace;
+  font-family: inherit;
 }
 
 .type-content code em {
