@@ -1,5 +1,6 @@
 /* 전역 스타일 */
 :root {
+  color-scheme: light only;
   --primary-color: #6b4ce6;
   --secondary-color: #9d7ce8;
   --accent-color: #ffd700;
