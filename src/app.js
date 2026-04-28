@@ -1,3 +1,54 @@
+// 커스텀 모달 함수
+function showModal(message, { input = false, defaultValue = '', cancelable = false } = {}) {
+  return new Promise((resolve) => {
+    const overlay = document.getElementById('customModal');
+    const msgEl = document.getElementById('customModalMessage');
+    const inputWrap = document.getElementById('customModalInputWrap');
+    const inputEl = document.getElementById('customModalInput');
+    const okBtn = document.getElementById('customModalOk');
+    const cancelBtn = document.getElementById('customModalCancel');
+
+    msgEl.textContent = message;
+    inputWrap.style.display = input ? 'block' : 'none';
+    cancelBtn.style.display = cancelable ? 'inline-block' : 'none';
+
+    if (input) {
+      inputEl.value = defaultValue;
+    }
+
+    overlay.style.display = 'flex';
+
+    if (input) {
+      setTimeout(() => inputEl.focus(), 50);
+    }
+
+    function cleanup() {
+      overlay.style.display = 'none';
+      okBtn.removeEventListener('click', onOk);
+      cancelBtn.removeEventListener('click', onCancel);
+      inputEl.removeEventListener('keypress', onKeypress);
+    }
+
+    function onOk() {
+      cleanup();
+      resolve(input ? inputEl.value : true);
+    }
+
+    function onCancel() {
+      cleanup();
+      resolve(null);
+    }
+
+    function onKeypress(e) {
+      if (e.key === 'Enter') onOk();
+    }
+
+    okBtn.addEventListener('click', onOk);
+    cancelBtn.addEventListener('click', onCancel);
+    if (input) inputEl.addEventListener('keypress', onKeypress);
+  });
+}
+
 // DOM 요소
 const birthdateInput = document.getElementById('birthdate');
 const yearInput = document.getElementById('year');
@@ -452,13 +503,17 @@ function updateSaveButton(birthdate) {
 }
 
 // 사람 저장 핸들러
-function handleSavePerson() {
+async function handleSavePerson() {
   if (!currentCalculation) {
-    alert('먼저 타로 카드를 계산해주세요.');
+    await showModal('먼저 타로 카드를 계산해주세요.');
     return;
   }
 
-  const name = prompt('이름을 입력하세요:', `사람 ${loadPeople().length + 1}`);
+  const name = await showModal('이름을 입력하세요:', {
+    input: true,
+    defaultValue: `사람 ${loadPeople().length + 1}`,
+    cancelable: true
+  });
 
   if (name === null) return; // 취소
 
@@ -487,24 +542,25 @@ function handleSavePerson() {
   // 저장 버튼 → 저장됨 라벨로 전환
   updateSaveButton(currentCalculation.birthdate);
 
-  alert(`${savedPerson.name}님이 저장되었습니다!`);
+  await showModal(`${savedPerson.name}님이 저장되었습니다!`);
 }
 
 // 전체 삭제 핸들러
-function handleClearAllPeople() {
+async function handleClearAllPeople() {
   const people = loadPeople();
 
   if (people.length === 0) {
-    alert('저장된 사람이 없습니다.');
+    await showModal('저장된 사람이 없습니다.');
     return;
   }
 
-  if (confirm(`저장된 ${people.length}명을 모두 삭제하시겠습니까?`)) {
+  const confirmed = await showModal(`저장된 ${people.length}명을 모두 삭제하시겠습니까?`, { cancelable: true });
+  if (confirmed) {
     savePeople([]);
     currentSelectedPersonId = null;
     refreshPeopleTabs();
     refreshPeopleCompatibility();
-    alert('모두 삭제되었습니다.');
+    await showModal('모두 삭제되었습니다.');
   }
 }
 
@@ -545,12 +601,13 @@ function refreshPeopleTabs() {
 
   // 삭제 버튼 이벤트
   document.querySelectorAll('.person-tab-remove').forEach(btn => {
-    btn.addEventListener('click', (e) => {
+    btn.addEventListener('click', async (e) => {
       e.stopPropagation();
       const personId = btn.dataset.personId;
       const person = getPerson(personId);
 
-      if (confirm(`${person.name}님을 삭제하시겠습니까?`)) {
+      const confirmed = await showModal(`${person.name}님을 삭제하시겠습니까?`, { cancelable: true });
+      if (confirmed) {
         const remainingPeople = removePerson(personId);
 
         if (currentSelectedPersonId === personId) {
@@ -631,17 +688,17 @@ function refreshPeopleCompatibility() {
 }
 
 // 궁합 보기 핸들러
-function handleCheckCompatibility() {
+async function handleCheckCompatibility() {
   const personId1 = compatPerson1Select.value;
   const personId2 = compatPerson2Select.value;
 
   if (!personId1 || !personId2) {
-    alert('두 사람을 모두 선택해주세요.');
+    await showModal('두 사람을 모두 선택해주세요.');
     return;
   }
 
   if (personId1 === personId2) {
-    alert('서로 다른 사람을 선택해주세요.');
+    await showModal('서로 다른 사람을 선택해주세요.');
     return;
   }
 
