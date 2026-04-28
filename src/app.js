@@ -183,11 +183,15 @@ function displayResults(data) {
   // 유니버셜 카드 표시
   displayUniversalCard(universalCardNumber);
 
-  // 소울 카드 표시 (있는 경우만)
+  // 소울 카드 표시
   if (soulCardNumber !== null) {
     displaySoulCard(soulCardNumber);
+    document.getElementById('soulCardContent').style.display = '';
+    document.getElementById('soulCardNone').style.display = 'none';
   } else {
-    document.getElementById('soulCardSection').style.display = 'none';
+    document.getElementById('soulCardSection').style.display = '';
+    document.getElementById('soulCardContent').style.display = 'none';
+    document.getElementById('soulCardNone').style.display = 'block';
   }
 
   // 카드 페어 심층 해석 (유니버셜 + 소울)

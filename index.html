@@ -131,8 +131,8 @@
           <span class="type-icon">✨</span>
           <div class="type-content">
             <strong>소울 카드</strong>
-            <p>영혼의 본질 · 유니버셜 카드를 재축약</p>
-            <code>예: 10번 → 1+0 = <em>1번</em> (10번 이상만 해당)</code>
+            <p>영혼의 본질 · 유니버셜 카드가 10번 이상일 때만 존재</p>
+            <code>예: 10번 → 1+0 = <em>1번</em> (유니버셜 1~9번은 소울 카드 없음)</code>
           </div>
         </div>
 
@@ -302,12 +302,16 @@
         <h2>✨ 소울 카드</h2>
         <p class="card-description">유니버셜 카드의 더 깊은 본질</p>
 
-        <div class="soul-card-info">
+        <div id="soulCardContent" class="soul-card-info">
           <img id="soulCardImage" class="card-image-small" alt="소울 카드" width="200" height="351" loading="lazy">
           <div class="soul-card-details">
             <h3 id="soulCardName"></h3>
             <p id="soulCardMeaning"></p>
           </div>
+        </div>
+        <div id="soulCardNone" class="soul-card-none" style="display: none;">
+          <p>유니버셜 카드가 1~9번인 경우 소울 카드는 존재하지 않아요.</p>
+          <p>소울 카드는 유니버셜 카드 번호가 10 이상일 때, 각 자릿수를 다시 더해서 구하는 카드예요. 유니버셜 카드가 한 자리 숫자이면 더 이상 축약할 수 없기 때문에 소울 카드가 따로 없고, 유니버셜 카드 자체가 영혼의 본질을 나타내요.</p>
         </div>
       </div>
 

@@ -527,6 +527,25 @@ body {
   line-height: 1.7;
 }
 
+.soul-card-none {
+  padding: 16px 20px;
+  background: var(--bg-color);
+  border-radius: 8px;
+  border-left: 3px solid var(--secondary-color);
+}
+
+.soul-card-none p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin: 6px 0;
+  font-size: 0.95rem;
+}
+
+.soul-card-none p:first-child {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
 /* 연도 카드 섹션 */
 .birthday-section {
   background: linear-gradient(135deg, #fff 0%, #fef5ff 100%);
