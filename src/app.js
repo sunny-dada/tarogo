@@ -516,7 +516,7 @@ async function handleSavePerson() {
 
   const name = await showModal('이름을 입력하세요:', {
     input: true,
-    defaultValue: `사람 ${loadPeople().length + 1}`,
+    defaultValue: '',
     cancelable: true
   });
 

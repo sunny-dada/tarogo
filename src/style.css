@@ -740,6 +740,16 @@ body {
   font-weight: 700;
   color: var(--primary-color);
   margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.modal-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
 }
 
 .custom-modal-message {
