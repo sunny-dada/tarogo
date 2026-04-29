@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow:
 
-Sitemap: https://tarogo.app/sitemap.xml
+Sitemap: https://tarogo.gosylive.workers.dev/sitemap.xml
